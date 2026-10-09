@@ -62,6 +62,9 @@ public class Flywheel {
 
         servo = hardwareMap.get(Servo.class, "angle");
 
+        this.vel = vel;
+        this.pose = pose;
+
 
     }
 
