@@ -7,7 +7,7 @@ public final class BlazeLogger {
 
     }
 
-    static boolean enabled = true;
+    private static boolean enabled = true;
     static String defaultTag = "SYS";
 
     public static void disableLogs(){

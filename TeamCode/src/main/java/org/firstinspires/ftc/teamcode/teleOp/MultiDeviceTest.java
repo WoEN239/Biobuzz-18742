@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.blaze.BlazeLogger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,26 +26,28 @@ public class MultiDeviceTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        List<String> splitDevices = Arrays.asList(devices.split(" "));
+        List<String> splitDevices = Arrays.asList(devices.strip().split(" "));
+        BlazeLogger.addDefaultLog("test","siz: " + splitDevices.size());
+        telemetry.addData("Write your actuator in format of TYPE:name:DIRECTION","");
+        telemetry.addData("Where type can be MOTOR(m) or SERVO(s)","");
+        telemetry.addData("Where name is the device name in config","");
+        telemetry.addData("Where direction can be FORWARD(f) or REVERSE(r)","");
+        telemetry.addData("devices should be separated by an space ","");
+        telemetry.addData("Example:: SERVO:servo1:REVERSE m:motor1:f","");
+
+        telemetry.addData("Then to set position/power you can write either 1 value: 0,5","");
+        telemetry.addData("Or an array of values(size of devices) and separated by a space:0,5 1","");
+        telemetry.update();
+
 
         for(String device : splitDevices){
             String[] deviceAndType = device.split(":");
+            BlazeLogger.addDefaultLog("test","device: " + deviceAndType.length);
             String type = deviceAndType[0];
             String name = deviceAndType[1];
-            String direction = deviceAndType[1];
+            String direction = deviceAndType[2];
 
-            telemetry.addData("Write your actuator in format of TYPE:name:DIRECTION","");
-            telemetry.addData("Where type can be MOTOR(m) or SERVO(s)","");
-            telemetry.addData("Where name is the device name in config","");
-            telemetry.addData("Where direction can be FORWARD(f) or REVERSE(r)","");
-            telemetry.addData("devices should be separated by an space ","");
-            telemetry.addData("Example:: SERVO:servo1:REVERSE m:motor1:f","");
 
-            telemetry.addData("Then to set position/power you can write either 1 value: 0,5","");
-            telemetry.addData("Or an array of values(size of devices) and separated by a space:0,5 1","");
-            telemetry.update();
-            telemetry.log();
-            waitForStart();
             switch (type){
                 case "MOTOR" :
                 case "m": {
@@ -91,8 +95,9 @@ public class MultiDeviceTest extends LinearOpMode {
             }
         }
 
+        waitForStart();
         while (opModeIsActive()){
-            List<String> positionsArray = Arrays.asList(positions.split(" "));
+            List<String> positionsArray = Arrays.asList(positions.strip().split(" "));
             if(positionsArray.size() == 1){
                 double position = Double.parseDouble(positionsArray.get(0));
                 for(Object actuator : actuators){

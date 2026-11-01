@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.blaze;
 import android.content.Context;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.sun.tools.javac.comp.Annotate;
+
+import org.firstinspires.ftc.teamcode.blaze.Anotations.BlazeModule;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,7 +13,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Pure annotation scanner for the Blaze framework.
@@ -23,7 +30,7 @@ import java.util.Enumeration;
 public class BlazeAnnotationScanner {
     private static final String tag = BlazeAnnotationScanner.class.getSimpleName();
 
-    private static final String PACKAGE_NAME = "org.firstinspires.ftc";
+    private static final String PACKAGE_NAME = "org.firstinspires.ftc.teamcode";
     private static final String CACHE_FILE_NAME = "blaze_modules.cache";
 
     private BlazeAnnotationScanner() {}
@@ -40,7 +47,7 @@ public class BlazeAnnotationScanner {
         Context context = hardwareMap.appContext;
         File cacheFile = new File(context.getFilesDir(), CACHE_FILE_NAME);
         File apkFile = new File(context.getPackageCodePath());
-        ClassLoader classLoader = context.getClassLoader();
+        ClassLoader classLoader = BlazeModule.class.getClassLoader();
 
 
 
@@ -50,7 +57,7 @@ public class BlazeAnnotationScanner {
 
         long time = System.nanoTime();
         // 2. Check cache
-        if (cacheFile.exists() && cacheFile.lastModified() >= apkFile.lastModified()) {
+        if (cacheFile.exists() && cacheFile.lastModified() >= apkFile.lastModified() && cacheFile.length() != 0)  {
             BlazeLogger.addDefaultLog(tag,"Found cache,reading");
             cacheHit = true;
             try (BufferedReader reader = new BufferedReader(new FileReader(cacheFile))) {
@@ -109,20 +116,37 @@ public class BlazeAnnotationScanner {
                 while (entries.hasMoreElements()) {
                     String className = entries.nextElement();
                     if (!className.startsWith(PACKAGE_NAME)) continue;
+
                     BlazeLogger.addDefaultLog(tag,"new entry:" + className);
                     totalClassesScanned++;
                     try {
                         Class<?> clazz = Class.forName(className, false, classLoader);
+                        if (clazz.getAnnotations().length == 0) continue;
                         for (BlazeRegistry.ScanRule rule : BlazeRegistry.SCAN_RULES) {
 
-                            if (clazz.isAnnotationPresent(rule.getTargetAnnotation())) {
-                                if (rule.isValid(clazz)) {
-                                    BlazeLogger.addDefaultLog(tag,"new entry:" + className + "Passed for rule :" + rule.getCachePrefix());
-                                    rule.onDexFound(clazz);
-                                }
+
+
+
+
+
+                        BlazeLogger.addDefaultLog(tag,"target: " + rule.getTargetAnnotation()
+                                + " existing " + clazz.getAnnotations()[0].getClass()
+                                + " has :" + clazz.isAnnotationPresent(rule.getTargetAnnotation()));
+
+                        BlazeLogger.addDefaultLog(tag,"targetLoader: " + rule.getClass().getClassLoader() +
+                                " existing Loader: " + clazz.getClassLoader());
+                        if (clazz.isAnnotationPresent(rule.getTargetAnnotation())) {
+                            BlazeLogger.addDefaultLog(tag,"new entry:" + className + "Passed for r :" + rule.getCachePrefix());
+                            if(rule.isValid(clazz)) {
+                                rule.onDexFound(clazz);
                             }
+
                         }
-                    } catch (ClassNotFoundException | NoClassDefFoundError ignored) {}
+                    }
+
+                    } catch (ClassNotFoundException | NoClassDefFoundError throwable) {
+                        BlazeLogger.addDefaultLog(tag,throwable.getMessage());
+                    }
                 }
             } catch (Exception e) {
                 BlazeLogger.addDefaultLog(tag,"Failed" + e.getMessage()) ;
@@ -139,6 +163,7 @@ public class BlazeAnnotationScanner {
             // 4. Write new cache
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(cacheFile))) {
                 for (BlazeRegistry.ScanRule rule : BlazeRegistry.SCAN_RULES) {
+                    BlazeLogger.addDefaultLog(tag,"passing writing to " + rule);
                     rule.writeCache(writer);
                 }
             } catch (IOException e) {
@@ -158,6 +183,7 @@ public class BlazeAnnotationScanner {
      * Deletes the cache file, forcing a full DexFile scan on the next run.
      */
     public static void removeCache(HardwareMap hardwareMap) {
+        BlazeLogger.addDefaultLog("BlazeAnnotationScanner", "Deleting cache.");
         Context context = hardwareMap.appContext;
         File cacheFile = new File(context.getFilesDir(), CACHE_FILE_NAME);
         if (cacheFile.exists() && cacheFile.delete()) {

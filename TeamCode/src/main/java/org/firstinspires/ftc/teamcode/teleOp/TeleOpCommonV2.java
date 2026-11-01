@@ -38,43 +38,43 @@ public class TeleOpCommonV2 extends BlazeCommon {
     public void init() {
         shooter.setRpmSupplier(this::calculateRpm);
         turret.setRotationSupplier(this::calculatePosition);
+
     }
 
     @Override
     public void update() {
         super.update();
-        driveTrain.moveRobot(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.left_trigger - gamepad1.right_trigger );
+        driveTrain.moveRobot(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_trigger - gamepad1.left_trigger );
 
-
-
-
-        if (gamepad1.right_bumper) {
-            transfer.suck();
+        if(gamepad1.right_bumper){
             intake.suck();
+            transfer.suck();
         } else if (gamepad1.left_bumper) {
             intake.outtake();
+            if(gamepad1.x){
+                transfer.unload();
+            }
+            else{
+                transfer.stop();
+            }
 
         } else {
             intake.stop();
-            if (!gamepad1.cross) {
+            if(shooter.isOn()){
+                transfer.suck();
+            }
+            else {
                 transfer.stop();
             }
+
         }
 
-        if (gamepad1.cross && !gamepad1.right_bumper) {
-            transfer.unload();
-        }
+        turret.setPosition(0.5);
 
-        if (gamepad1.squareWasPressed()) {
+        if(gamepad1.squareWasPressed()){
             shooter.toggle();
-            if(shooter.isOn()){
-                shooter.openDoor();
-                kicker.kick();
-            }
-            else{
-                shooter.closeDoor();
-                kicker.stop();
-            }
+            kicker.toggle();
+
         }
     }
 

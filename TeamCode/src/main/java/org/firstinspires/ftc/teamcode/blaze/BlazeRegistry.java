@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.blaze;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.BlazeModule;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.HardwareConfig;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.InitWithTelemetry;
 import org.firstinspires.ftc.teamcode.blaze.AutoWire.ElectronicsConfig;
 import org.firstinspires.ftc.teamcode.blaze.ModuleSubsystem.BlazingModule;
+import org.firstinspires.ftc.teamcode.blaze.ModuleSubsystem.EmptyTelemetry;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -123,7 +125,7 @@ public class BlazeRegistry {
         return new ScanRule() {
             @Override public Class<? extends Annotation> getTargetAnnotation() { return annotation; }
             @Override public String getCachePrefix() { return prefix; }
-            @Override public boolean isValid(Class<?> clazz) { return baseType.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers()); }
+            @Override public boolean isValid(Class<?> clazz) { return baseType.isAssignableFrom(clazz); }
             @Override public void onDexFound(Class<?> clazz) {
                 if (getter.get() != null) throw new IllegalStateException("Duplicate @" + annotation.getSimpleName() + ": " + clazz.getSimpleName());
                 setter.accept(clazz);
@@ -139,7 +141,10 @@ public class BlazeRegistry {
                 Class<?> clazz = getter.get();
                 writer.write(getCachePrefix() + (clazz != null ? clazz.getName() : ""));
                 writer.newLine();
-                BlazeLogger.addDefaultLog("BlazeRegistry", "Written to cache " + annotation.getSimpleName() + ": " + clazz.getSimpleName());
+                if(clazz == null){
+                    BlazeLogger.addDefaultLog("Blaze reigstry","null class passed to cache!!!!");
+                }
+                BlazeLogger.addDefaultLog("BlazeRegistry", "Written to cache " + annotation.getSimpleName() + ": " + clazz);
             }
             @Override public void reset() { resetter.run(); }
         };
@@ -183,7 +188,7 @@ public class BlazeRegistry {
             }
         }
 
-        BlazeLogger.addDefaultLog("Registry","All madules: " + validClasses);
+        BlazeLogger.addDefaultLog("Registry","All modules: " + validClasses);
     }
 
     // --- Public Getters & Lifecycle ---
@@ -209,7 +214,7 @@ public class BlazeRegistry {
      *
      * @param telemetry The telemetry instance to pass to modules requiring it.
      */
-    public static void createAll(MultiDashTelemetry telemetry) {
+    public static void createAll(MultiDashTelemetry telemetry, Telemetry baseTelemetry) {
         for (ModuleInfo info : registry.values()) {
             if (info.instance != null) continue;
             try {
@@ -220,7 +225,7 @@ public class BlazeRegistry {
                 if (info.type.getAnnotation(InitWithTelemetry.class) != null && telemetry != null) {
                     info.instance.autowireSelf(info.name, telemetry);
                 } else {
-                    info.instance.autowireSelf(info.name, null);
+                    info.instance.autowireSelf(info.name,new EmptyTelemetry(baseTelemetry));
                 }
 
                 long timeToEnd = System.currentTimeMillis() - startTime;
@@ -262,7 +267,8 @@ public class BlazeRegistry {
         for (ModuleInfo info : registry.values()) {
             if (info.instance != null && type.isInstance(info.instance)) return (T) info.instance;
         }
-        throw new IllegalStateException("Module of type '" + type.getSimpleName() + "' not found.");
+        throw new IllegalStateException("Module of type '" + type.getSimpleName() + "' not found in modules: " +
+                registry.values());
     }
 
     /**

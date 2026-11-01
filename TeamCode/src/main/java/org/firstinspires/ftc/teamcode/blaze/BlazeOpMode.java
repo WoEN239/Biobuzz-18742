@@ -25,6 +25,8 @@ public abstract class BlazeOpMode extends OpMode {
 
         took = System.currentTimeMillis() - startTime;
         BlazeLogger.addDefaultLog("OPMODE","Init finished,took " + took + "ms");
+        BlazeCore.getTelemetry().addData("OPMODE","Init finished,took " + took + "ms");
+        BlazeCore.getTelemetry().update();
     }
 
     public abstract void initHotWrite();

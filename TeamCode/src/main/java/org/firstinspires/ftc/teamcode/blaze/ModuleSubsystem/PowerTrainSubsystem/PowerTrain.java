@@ -95,9 +95,9 @@ public class PowerTrain {
 
     public void setTarget(double target){
         for (Actuator act : allActuators) {
-            if(act.getController() != null){
+
                 act.setTarget(target);
-            }
+
 
         }
     }

@@ -39,6 +39,7 @@ public class BlazeCore {
 
     // --- Hardware & Context References ---
     private static HardwareMap hardwareMap;
+    private static Telemetry baseTelemetry;
     private static Gamepad gamepad1;
     private static Gamepad gamepad2;
 
@@ -60,6 +61,7 @@ public class BlazeCore {
      */
     public static void createConfig(HardwareMap hardwareMap,Telemetry telemetry)  {
         BlazeCore.hardwareMap = hardwareMap;
+        baseTelemetry = telemetry;
         setTelemetry(telemetry);
 
         // Clear cache only on the very first launch to ensure a clean state
@@ -82,7 +84,6 @@ public class BlazeCore {
 
         // Clear previous hardware state to prevent dead hardware pointers between OpMode runs
         BlazeLogger.addDefaultLog("Config","Cleaning hardware");
-        destroyHardware();
 
         long startTime = System.currentTimeMillis();
         // Scan for and instantiate the hardware configuration class
@@ -131,7 +132,7 @@ public class BlazeCore {
      * Must be called after {@link #scanAnnotations()} and {@link #setTelemetry(Telemetry)}.
      */
     public static void createModules(){
-        BlazeRegistry.createAll(dashTelemetry);
+        BlazeRegistry.createAll(dashTelemetry,baseTelemetry);
     }
 
     /**
@@ -226,13 +227,13 @@ public class BlazeCore {
      * @return The associated PowerTrain
      */
     public static PowerTrain getPowerTrainByModule(String moduleName) {
-
         for (PowerTrain powerTrain : allPowerTrains.values()) {
             if (Objects.equals(powerTrain.getAutowireModule(), moduleName)) {
                 return powerTrain;
             }
         }
-        throw new IllegalStateException("Couldn't find an autowired powertrain by module " + moduleName);
+        throw new IllegalStateException("Couldn't find an autowired powertrain by module " + moduleName + " from powertrains: " + allPowerTrains.values()
+        + ".Check tour hardware config");
     }
 
 

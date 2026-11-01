@@ -3,9 +3,13 @@ package org.firstinspires.ftc.teamcode.blaze.Actuators;
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.blaze.BlazeLogger;
+import org.firstinspires.ftc.teamcode.blaze.Controllers.Controller;
+import org.firstinspires.ftc.teamcode.blaze.Controllers.PIDController;
+import org.firstinspires.ftc.teamcode.blaze.Controllers.ServoController;
 
 public class SmartServo implements Actuator{
     Servo servo;
@@ -17,12 +21,14 @@ public class SmartServo implements Actuator{
     private  double maxRaw = 1;
     String name;
 
+    private Controller controller = new ServoController();
 
     public SmartServo(Servo servo){
         this.servo = servo;
     }
 
     public SmartServo(HardwareMap hardwareMap,String name, Servo.Direction direction){
+        setController(controller);
         long startTime = System.currentTimeMillis();
         servo = hardwareMap.get(Servo.class,name);
         this.name = name;
@@ -81,6 +87,7 @@ public class SmartServo implements Actuator{
                 ", tolerance=" + tolerance +
                 '}';
     }
+
 
     @Override
     public void scale(double from, double fromRaw, double to, double toRaw) {

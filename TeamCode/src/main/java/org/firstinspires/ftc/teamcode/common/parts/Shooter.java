@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.common.parts;
 
 import com.bylazar.configurables.annotations.Configurable;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartMotor;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartServo;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireActuator;
@@ -25,8 +26,8 @@ public class Shooter extends BlazingModule {
 
     @AutowireActuator
     SmartServo shooterDoorServo;
-    public static double closePosition = 0.5;
-    public static double openPosition = 0;
+    public static double closePosition = 0.38;
+    public static double openPosition = 0.7;
 
     Supplier<Double> rpmSupplier = null;
 
@@ -62,9 +63,11 @@ public class Shooter extends BlazingModule {
     public void toggle(){
         if(isOn){
             turnOff();
+            closeDoor();
         }
         else{
             turnOn();
+            openDoor();
         }
     }
 
@@ -95,6 +98,8 @@ public class Shooter extends BlazingModule {
     public void addTelemetry() {
         super.addTelemetry();
         telemetry.addData("Power",shooterMotor.getPower());
+        telemetry.addData("Amps",shooterMotor.getDcMotor().getCurrent(CurrentUnit.AMPS));
         telemetry.addData("Target",shooterMotor.getTarget());
+        telemetry.addData("Door target",shooterDoorServo.getTarget());
     }
 }

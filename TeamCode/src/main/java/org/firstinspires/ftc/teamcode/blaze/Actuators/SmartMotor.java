@@ -128,6 +128,7 @@ public class SmartMotor implements Actuator{
 
     @Override
     public void setTarget(double target){
+        if(controller == null) return;
         isRawPower = false;
         this.target = target;
     }
