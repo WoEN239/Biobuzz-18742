@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.common.parts;
 
-import com.bylazar.configurables.annotations.Configurable;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartMotor;
@@ -13,7 +12,6 @@ import org.firstinspires.ftc.teamcode.common.config.Constants;
 
 @InitWithTelemetry
 @BlazeModule
-@Configurable
 public class Kicker extends BlazingModule {
     public static double kickPower = 1;
     boolean isKicking = false;

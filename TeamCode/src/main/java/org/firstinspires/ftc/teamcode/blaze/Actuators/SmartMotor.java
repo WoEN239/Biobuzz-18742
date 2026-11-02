@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.blaze.Actuators;
 import static java.lang.Math.abs;
 import static java.lang.Math.signum;
 
-import com.bylazar.configurables.annotations.Configurable;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.blaze.BlazeLogger;
 import org.firstinspires.ftc.teamcode.blaze.Controllers.Controller;
 
-@Configurable
+
 public class SmartMotor implements Actuator{
 
     private  double max_power = 1;
@@ -156,7 +156,7 @@ public class SmartMotor implements Actuator{
             case POSITION:
                 return dcMotor.getCurrentPosition() * ticksToDegrees * (isEncoderReversed ? -1 : 1);
             case VELOCITY:
-                return (dcMotor.getVelocity() * ticksToDegrees * (isEncoderReversed ? -1 : 1));
+                return getVelocity();
             case CUSTOM:
                 return dcMotor.getCurrentPosition() * (isEncoderReversed ? -1 : 1);
         }
@@ -197,9 +197,6 @@ public class SmartMotor implements Actuator{
     public void update() {
         if(!isRawPower && controller != null) {
             power = controller.calculate(target, getTarget());
-            if(abs(power) > max_power){
-                power = signum(power) * max_power;
-            }
             dcMotor.setPower(power);
         } else if(controller == null) {
             dcMotor.setPower(0);

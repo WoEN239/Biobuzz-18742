@@ -3,10 +3,11 @@ package org.firstinspires.ftc.teamcode.blaze.Controllers;
 import static java.lang.Math.abs;
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 public class PIDFController implements Controller {
-    private PIDFCoefficients coefficients;
+    public  PIDFCoefficients coefficients;
     private double I = 0;
     private double errorOld = 0;
     private double control = 0;
@@ -35,7 +36,7 @@ public class PIDFController implements Controller {
         }
 
 
-        double D = (error - errorOld) /  coefficients.d;
+        double D = (error - errorOld) *  coefficients.d;
         errorOld = error;
 
         double windUp = coefficients.f * target;

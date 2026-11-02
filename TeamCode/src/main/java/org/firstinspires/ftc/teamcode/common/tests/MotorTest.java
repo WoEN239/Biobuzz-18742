@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.common.tests;
 
-import com.bylazar.configurables.annotations.Configurable;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
-@Configurable
+
 public class MotorTest extends LinearOpMode {
     public static final String motorName1="motor";
     public static final String motorName2="";

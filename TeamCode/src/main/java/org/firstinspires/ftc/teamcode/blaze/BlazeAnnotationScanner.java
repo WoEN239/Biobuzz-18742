@@ -41,6 +41,7 @@ public class BlazeAnnotationScanner {
      * @param hardwareMap The FTC HardwareMap, used to access the application context.
      */
     public static void scanAndRegisterAll(HardwareMap hardwareMap) {
+
         // 1. Reset registry state
         BlazeRegistry.resetRules();
 

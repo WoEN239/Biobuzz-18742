@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.common.config;
 
-import com.bylazar.configurables.annotations.Configurable;
+import com.acmerobotics.dashboard.config.Config;
 
-@Configurable
 public final class Constants {
+
+    public static double position = 180;
 
     public final static String activeIntakePowerTrain =  "activeIntakePowerTrain";
     public final static String driveTrainPowerTrain =  "driveTrainPowerTrain";

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
-import com.bylazar.configurables.annotations.Configurable;
+import com.acmerobotics.dashboard.config.Config;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Autonomous(group = "Test")
-@Configurable
+@Config
 public class MultiDeviceTest extends LinearOpMode {
     public static String devices;
 

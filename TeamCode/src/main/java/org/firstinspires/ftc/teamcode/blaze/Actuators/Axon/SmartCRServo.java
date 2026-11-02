@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.blaze.Actuators.Axon;
 
 import static java.lang.Math.abs;
 
-import com.bylazar.configurables.annotations.Configurable;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.blaze.Controllers.PIDController;
  *
  * @author Saket(team 23511) & physics
  */
-@Configurable
+
 public class SmartCRServo implements Actuator {
     String id;
     private final Encoder encoder;

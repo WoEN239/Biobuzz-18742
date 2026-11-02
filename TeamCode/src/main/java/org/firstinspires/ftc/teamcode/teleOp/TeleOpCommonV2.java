@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
-import com.bylazar.configurables.annotations.Configurable;
+
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.blaze.Alliance;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireModule;
 import org.firstinspires.ftc.teamcode.blaze.BlazeCommon;
+import org.firstinspires.ftc.teamcode.blaze.Controllers.PIDFController;
+import org.firstinspires.ftc.teamcode.common.config.Constants;
 import org.firstinspires.ftc.teamcode.common.parts.ActiveIntakeModule;
 import org.firstinspires.ftc.teamcode.common.parts.DriveTrain;
 import org.firstinspires.ftc.teamcode.common.parts.Kicker;
@@ -12,9 +16,9 @@ import org.firstinspires.ftc.teamcode.common.parts.Shooter;
 import org.firstinspires.ftc.teamcode.common.parts.Transfer;
 import org.firstinspires.ftc.teamcode.common.parts.Turret;
 
-@Configurable
+//@Config
 public class TeleOpCommonV2 extends BlazeCommon {
-    public static double position = 180;
+
     @AutowireModule
     ActiveIntakeModule intake;
 
@@ -33,6 +37,8 @@ public class TeleOpCommonV2 extends BlazeCommon {
     @AutowireModule
     Turret turret;
 
+    Long loopTime = 0L;
+
 
     public TeleOpCommonV2(Alliance alliance) {
         super(alliance);
@@ -40,13 +46,15 @@ public class TeleOpCommonV2 extends BlazeCommon {
 
     @Override
     public void init() {
-        shooter.setRpmSupplier(this::calculateRpm);
+
         turret.setRotationSupplier(this::calculatePosition);
 
     }
 
     @Override
     public void update() {
+
+        Long startTime = System.currentTimeMillis();
         super.update();
         driveTrain.moveRobot(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_trigger - gamepad1.left_trigger );
 
@@ -64,27 +72,26 @@ public class TeleOpCommonV2 extends BlazeCommon {
 
         } else {
             intake.stop();
-            if(shooter.isOn()){
-                transfer.suck();
-            }
-            else {
-                transfer.stop();
-            }
-
+            transfer.stop();
         }
 
-        turret.setPosition(360);
-
+        shooter.setRPM(400);
+        turret.setPosition(Constants.position);
         if(gamepad1.squareWasPressed()){
             shooter.toggle();
             kicker.toggle();
-
         }
+
+        loopTime = System.currentTimeMillis() - startTime;
     }
 
-    public double calculateRpm(){
-        return 4000;
+    @Override
+    public void addTelemetry() {
+        telemetry.addData("Loop time",loopTime);
+
+        super.addTelemetry();
     }
+
 
     public double calculatePosition(){
         return 0;

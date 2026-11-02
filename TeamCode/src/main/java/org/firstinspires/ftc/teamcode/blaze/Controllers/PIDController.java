@@ -34,7 +34,7 @@ public class PIDController implements Controller {
             I = IMax * Math.signum(I);
         }
 
-        double D = (error - errorOld) /coefficients.d;
+        double D = (error - errorOld) * coefficients.d;
         errorOld = error;
 
         control = P + I + D;
@@ -60,7 +60,7 @@ public class PIDController implements Controller {
         }
 
         // Derivative term uses change in error over time
-        double D = (error - errorOld) / coefficients.d;
+        double D = (error - errorOld) * coefficients.d;
         errorOld = error;
 
         control = P + I + D;

@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.common.config;
 
 
-import com.bylazar.configurables.annotations.Configurable;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartMotor;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.HardwareConfig;
 import org.firstinspires.ftc.teamcode.blaze.AutoWire.ElectronicsConfig;
 import org.firstinspires.ftc.teamcode.blaze.BlazeCore;
+import org.firstinspires.ftc.teamcode.blaze.Controllers.PIDController;
 import org.firstinspires.ftc.teamcode.blaze.Controllers.PIDFController;
 import org.firstinspires.ftc.teamcode.blaze.ENCODER_RESOLUTION;
 import org.firstinspires.ftc.teamcode.blaze.ModuleSubsystem.PowerTrainSubsystem.PowerTrain;
@@ -28,12 +30,11 @@ import org.firstinspires.ftc.teamcode.common.parts.Transfer;
 import org.firstinspires.ftc.teamcode.common.parts.Turret;
 
 @HardwareConfig
-@Configurable
 public class FullHardwareConfig extends ElectronicsConfig {
     public FullHardwareConfig(){}
 
     public static PIDFController shooterController = new PIDFController(
-            new PIDFCoefficients(0.05,0.00001,0.00001,0.005)
+         new PIDFCoefficients(0.000,0,0,0.01)
     );
 
     @Override
@@ -63,9 +64,10 @@ public class FullHardwareConfig extends ElectronicsConfig {
         SmartMotor shooterMotor = new SmartMotor.builder(hardwareMap,Constants.shooterMotor)
                 .controller(shooterController)
                 .direction(DcMotorSimple.Direction.REVERSE)
+                .ticksToDegrees(ENCODER_RESOLUTION.REVHEX20TO1.get())
                 .targetMode(Actuator.TargetMode.VELOCITY)
                 .zeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
-                .encoderReversed(false)
+                .encoderReversed(true)
                 .build();
 
         PowerTrain shooterPowerTrain = new PowerTrain.builder(hardwareMap,Constants.shooterPowerTrain)

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.parts;
 
-import com.bylazar.configurables.annotations.Configurable;
+
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.blaze.ModuleSubsystem.BlazingModule;
 
 @InitWithTelemetry
 @BlazeModule
-@Configurable
+
 public class DriveTrain extends BlazingModule {
     @AutowireActuator()
     SmartMotor lf;
@@ -26,16 +26,10 @@ public class DriveTrain extends BlazingModule {
     @AutowireActuator()
     SmartMotor rr;
 
-    @AutowireCustom
-    IMU imu;
+
+    //IMU imu;
     public static double maxPower = 1;
 
-    public void fieldCentric(double forward, double strafe, double yaw){
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-        double strafeRot = strafe * Math.cos(botHeading) - forward * Math.sin(botHeading);
-        double forwardRot = strafe * Math.sin(botHeading) + forward * Math.cos(botHeading);
-        moveRobot(forwardRot,strafeRot,yaw);
-    }
 
     @Command
     public void moveRobot(double forward, double strafe, double yaw) {

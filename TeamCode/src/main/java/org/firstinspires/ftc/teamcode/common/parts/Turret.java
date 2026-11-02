@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.parts;
 
-import com.bylazar.configurables.annotations.Configurable;
+
 
 import org.firstinspires.ftc.teamcode.blaze.Anotations.BlazeModule;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.InitWithTelemetry;
@@ -10,7 +10,6 @@ import java.util.function.Supplier;
 
 @BlazeModule
 @InitWithTelemetry
-@Configurable
 public class Turret extends BlazingModule {
 
     Supplier<Double> rotationSupplier = null;

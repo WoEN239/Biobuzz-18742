@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.parts;
 
-import com.bylazar.configurables.annotations.Configurable;
+
 import com.sun.tools.javac.code.Attribute;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.common.config.Constants;
 
 @BlazeModule
 @InitWithTelemetry
-@Configurable
 public class ActiveIntakeModule extends BlazingModule {
 
 
