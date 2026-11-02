@@ -4,7 +4,7 @@ import com.bylazar.configurables.annotations.Configurable;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartMotor;
-import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartServo;
+import org.firstinspires.ftc.teamcode.blaze.Actuators.Servo.SmartServo;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireActuator;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.BlazeModule;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.Command;

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
+import com.bylazar.configurables.annotations.Configurable;
+
 import org.firstinspires.ftc.teamcode.blaze.Alliance;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireModule;
 import org.firstinspires.ftc.teamcode.blaze.BlazeCommon;
@@ -10,7 +12,9 @@ import org.firstinspires.ftc.teamcode.common.parts.Shooter;
 import org.firstinspires.ftc.teamcode.common.parts.Transfer;
 import org.firstinspires.ftc.teamcode.common.parts.Turret;
 
+@Configurable
 public class TeleOpCommonV2 extends BlazeCommon {
+    public static double position = 180;
     @AutowireModule
     ActiveIntakeModule intake;
 
@@ -69,7 +73,7 @@ public class TeleOpCommonV2 extends BlazeCommon {
 
         }
 
-        turret.setPosition(0.5);
+        turret.setPosition(360);
 
         if(gamepad1.squareWasPressed()){
             shooter.toggle();

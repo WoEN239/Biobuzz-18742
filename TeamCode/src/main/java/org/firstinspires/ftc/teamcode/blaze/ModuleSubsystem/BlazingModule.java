@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.Actuator;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.Axon.SmartCRServo;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartMotor;
-import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartServo;
+import org.firstinspires.ftc.teamcode.blaze.Actuators.Servo.SmartServo;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireActuator;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireCustom;
 import org.firstinspires.ftc.teamcode.blaze.BlazeCore;

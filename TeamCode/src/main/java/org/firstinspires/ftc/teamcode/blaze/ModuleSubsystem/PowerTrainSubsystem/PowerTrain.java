@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.blaze.Actuators.Actuator;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartMotor;
-import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartServo;
+import org.firstinspires.ftc.teamcode.blaze.Actuators.Servo.SmartServo;
 import org.firstinspires.ftc.teamcode.blaze.Controllers.Controller;
 import org.firstinspires.ftc.teamcode.blaze.ModuleSubsystem.BlazingModule;
 

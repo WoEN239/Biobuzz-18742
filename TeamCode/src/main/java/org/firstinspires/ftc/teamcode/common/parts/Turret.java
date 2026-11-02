@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.common.parts;
 
 import com.bylazar.configurables.annotations.Configurable;
 
-import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartServo;
-import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireActuator;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.BlazeModule;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.InitWithTelemetry;
 import org.firstinspires.ftc.teamcode.blaze.ModuleSubsystem.BlazingModule;

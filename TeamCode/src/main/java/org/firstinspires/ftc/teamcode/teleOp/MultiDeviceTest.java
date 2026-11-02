@@ -17,16 +17,16 @@ import java.util.List;
 @Autonomous(group = "Test")
 @Configurable
 public class MultiDeviceTest extends LinearOpMode {
-    public static String devices = "";
+    public static String devices;
 
-    public static String positions = "";
+    public static String positions ;
 
     List<Object> actuators = new ArrayList<>();//make an interface
 
 
     @Override
     public void runOpMode() throws InterruptedException {
-        List<String> splitDevices = Arrays.asList(devices.strip().split(" "));
+        List<String> splitDevices = Arrays.asList(devices.split(";"));
         BlazeLogger.addDefaultLog("test","siz: " + splitDevices.size());
         telemetry.addData("Write your actuator in format of TYPE:name:DIRECTION","");
         telemetry.addData("Where type can be MOTOR(m) or SERVO(s)","");
@@ -39,10 +39,15 @@ public class MultiDeviceTest extends LinearOpMode {
         telemetry.addData("Or an array of values(size of devices) and separated by a space:0,5 1","");
         telemetry.update();
 
+        waitForStart();
 
         for(String device : splitDevices){
+
             String[] deviceAndType = device.split(":");
             BlazeLogger.addDefaultLog("test","device: " + deviceAndType.length);
+            BlazeLogger.addDefaultLog("test","devices: " + device);
+            BlazeLogger.addDefaultLog("test","devices: " + splitDevices);
+            BlazeLogger.addDefaultLog("test","devices: " + devices);
             String type = deviceAndType[0];
             String name = deviceAndType[1];
             String direction = deviceAndType[2];
@@ -95,7 +100,6 @@ public class MultiDeviceTest extends LinearOpMode {
             }
         }
 
-        waitForStart();
         while (opModeIsActive()){
             List<String> positionsArray = Arrays.asList(positions.strip().split(" "));
             if(positionsArray.size() == 1){

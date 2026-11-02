@@ -8,9 +8,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.blaze.Actuators.Actuator;
+import org.firstinspires.ftc.teamcode.blaze.Actuators.Servo.SmartServo;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartMotor;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.HardwareConfig;
 import org.firstinspires.ftc.teamcode.blaze.AutoWire.ElectronicsConfig;
@@ -69,24 +71,32 @@ public class FullHardwareConfig extends ElectronicsConfig {
         PowerTrain shooterPowerTrain = new PowerTrain.builder(hardwareMap,Constants.shooterPowerTrain)
                 .addActuator(shooterMotor)
                 .addServo(Constants.shooterServo, Servo.Direction.FORWARD,60,0,90,0.5)
-                .addServo(Constants.shooterDoorServo, Servo.Direction.FORWARD)
+                .addActuator(new SmartServo.builder(hardwareMap,Constants.shooterDoorServo)
+                        .setPwmRange(500,2500)
+                        .setScale(0.35,0,1,0.78).build())
                 .autowireTo(Shooter.class).build();
 
         PowerTrain transferPower = new PowerTrain.builder(hardwareMap,Constants.transferPowerTrain)
                 .addMotor(Constants.transferMotor, DcMotorSimple.Direction.REVERSE)
                 .autowireTo(Transfer.class).build();
 
-        double maxTurretRangeScale = 180;
+        double maxTurretRangeScale = 360;
+
+        SmartServo baseTurretServo = new SmartServo.builder(hardwareMap,Constants.turretServo1)
+                .setPwmRange(500,2500)
+                .setScale(0,0,maxTurretRangeScale,1)
+                .build();
 
 
         PowerTrain turretPowerTrain = new PowerTrain.builder(hardwareMap,Constants.turretPowerTrain)
-                .addServo(Constants.turretServo1, Servo.Direction.FORWARD,0,0.05,maxTurretRangeScale,0.95)
-                .addServo(Constants.turretServo2, Servo.Direction.FORWARD,0,0.05,maxTurretRangeScale,0.95)
+                .addActuator(baseTurretServo)
+                .addActuator(new SmartServo.builder(hardwareMap,Constants.turretServo2)
+                        .copy(baseTurretServo).build())
                 .autowireTo(Turret.class)
                 .build();
 
         PowerTrain kickerPowerTrain = new PowerTrain.builder(hardwareMap,Constants.kickerPowerTrain)
-                .addMotor("kickerMotor", DcMotorSimple.Direction.REVERSE)
+                .addMotor(Constants.kickerMotor, DcMotorSimple.Direction.REVERSE)
                 .autowireTo(Kicker.class).build();
 
         BlazeCore.addPowerTrains(intakePowerTrain,driveTrain,shooterPowerTrain,transferPower,turretPowerTrain,kickerPowerTrain);
