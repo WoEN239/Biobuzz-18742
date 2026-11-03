@@ -30,11 +30,12 @@ import org.firstinspires.ftc.teamcode.common.parts.Transfer;
 import org.firstinspires.ftc.teamcode.common.parts.Turret;
 
 @HardwareConfig
+@Config
 public class FullHardwareConfig extends ElectronicsConfig {
     public FullHardwareConfig(){}
 
     public static PIDFController shooterController = new PIDFController(
-         new PIDFCoefficients(0.000,0,0,0.01)
+         new PIDFCoefficients(0.004,0,0.000006,0.0003)
     );
 
     @Override
@@ -64,10 +65,10 @@ public class FullHardwareConfig extends ElectronicsConfig {
         SmartMotor shooterMotor = new SmartMotor.builder(hardwareMap,Constants.shooterMotor)
                 .controller(shooterController)
                 .direction(DcMotorSimple.Direction.REVERSE)
-                .ticksToDegrees(ENCODER_RESOLUTION.REVHEX20TO1.get())
+                .ticksToDegrees(12.85714285714286)
                 .targetMode(Actuator.TargetMode.VELOCITY)
                 .zeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
-                .encoderReversed(true)
+                .encoderReversed(false)
                 .build();
 
         PowerTrain shooterPowerTrain = new PowerTrain.builder(hardwareMap,Constants.shooterPowerTrain)
@@ -75,7 +76,7 @@ public class FullHardwareConfig extends ElectronicsConfig {
                 .addServo(Constants.shooterServo, Servo.Direction.FORWARD,60,0,90,0.5)
                 .addActuator(new SmartServo.builder(hardwareMap,Constants.shooterDoorServo)
                         .setPwmRange(500,2500)
-                        .setScale(0.35,0,1,0.78).build())
+                        .setScale(0.35,0,0.78,1).build())
                 .autowireTo(Shooter.class).build();
 
         PowerTrain transferPower = new PowerTrain.builder(hardwareMap,Constants.transferPowerTrain)
@@ -86,7 +87,7 @@ public class FullHardwareConfig extends ElectronicsConfig {
 
         SmartServo baseTurretServo = new SmartServo.builder(hardwareMap,Constants.turretServo1)
                 .setPwmRange(500,2500)
-                .setScale(0,0,maxTurretRangeScale,1)
+                .setScale(0,0,1,maxTurretRangeScale)
                 .build();
 
 
@@ -97,8 +98,11 @@ public class FullHardwareConfig extends ElectronicsConfig {
                 .autowireTo(Turret.class)
                 .build();
 
+
         PowerTrain kickerPowerTrain = new PowerTrain.builder(hardwareMap,Constants.kickerPowerTrain)
-                .addMotor(Constants.kickerMotor, DcMotorSimple.Direction.REVERSE)
+                .addActuator(new SmartMotor.builder(hardwareMap,Constants.kickerMotor)
+                        .zeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
+                        .direction(DcMotorSimple.Direction.REVERSE).build())
                 .autowireTo(Kicker.class).build();
 
         BlazeCore.addPowerTrains(intakePowerTrain,driveTrain,shooterPowerTrain,transferPower,turretPowerTrain,kickerPowerTrain);

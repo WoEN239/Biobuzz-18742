@@ -164,7 +164,7 @@ public class SmartMotor implements Actuator{
     }
 
     public double getVelocity(){
-        return (dcMotor.getVelocity() * ticksToDegrees * (isEncoderReversed ? -1 : 1)) / 6.0;
+        return (dcMotor.getVelocity() * ticksToDegrees * (isEncoderReversed ? -1 : 1)) / 6;
     }
 
     @Override

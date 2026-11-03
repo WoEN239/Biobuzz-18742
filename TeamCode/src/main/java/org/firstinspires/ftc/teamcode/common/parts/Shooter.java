@@ -26,8 +26,8 @@ public class Shooter extends BlazingModule {
 
     @AutowireActuator
     SmartServo shooterDoorServo;
-    public static double closePosition = 0.38;
-    public static double openPosition = 0.7;
+    public static double closePosition = 0;
+    public static double openPosition = 1;
 
     Supplier<Double> rpmSupplier = null;
 
@@ -102,7 +102,6 @@ public class Shooter extends BlazingModule {
         telemetry.addData("Amps",shooterMotor.getDcMotor().getCurrent(CurrentUnit.AMPS));
         telemetry.addData("Speed",shooterMotor.getTarget());
         telemetry.addData("Controller",shooterMotor.getController());
-        telemetry.addData("Velocity",shooterMotor.getDcMotor().getVelocity());
         telemetry.addData("Door target",shooterDoorServo.getTarget());
     }
 }

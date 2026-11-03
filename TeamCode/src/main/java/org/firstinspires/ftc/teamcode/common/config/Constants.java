@@ -2,9 +2,9 @@ package org.firstinspires.ftc.teamcode.common.config;
 
 import com.acmerobotics.dashboard.config.Config;
 
+
 public final class Constants {
 
-    public static double position = 180;
 
     public final static String activeIntakePowerTrain =  "activeIntakePowerTrain";
     public final static String driveTrainPowerTrain =  "driveTrainPowerTrain";

@@ -16,8 +16,10 @@ import org.firstinspires.ftc.teamcode.common.parts.Shooter;
 import org.firstinspires.ftc.teamcode.common.parts.Transfer;
 import org.firstinspires.ftc.teamcode.common.parts.Turret;
 
-//@Config
+@Config
 public class TeleOpCommonV2 extends BlazeCommon {
+    public static double position = 180;
+    public static double shooterTarget = 1000;
 
     @AutowireModule
     ActiveIntakeModule intake;
@@ -56,7 +58,7 @@ public class TeleOpCommonV2 extends BlazeCommon {
 
         Long startTime = System.currentTimeMillis();
         super.update();
-        driveTrain.moveRobot(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_trigger - gamepad1.left_trigger );
+        driveTrain.moveRobot(gamepad1.left_stick_y,-gamepad1.left_stick_x,gamepad1.right_trigger - gamepad1.left_trigger );
 
         if(gamepad1.right_bumper){
             intake.suck();
@@ -75,8 +77,8 @@ public class TeleOpCommonV2 extends BlazeCommon {
             transfer.stop();
         }
 
-        shooter.setRPM(400);
-        turret.setPosition(Constants.position);
+        shooter.setRPM(shooterTarget);
+        turret.setPosition(position);
         if(gamepad1.squareWasPressed()){
             shooter.toggle();
             kicker.toggle();
