@@ -40,7 +40,7 @@ public class PedroTelemetryProvider implements org.firstinspires.ftc.teamcode.bl
             public void update() {
                 super.update();
                 dashboard.sendTelemetryPacket(packet);
-                packet = new TelemetryPacket();
+                packet.clearLines();
             }
         };
     }

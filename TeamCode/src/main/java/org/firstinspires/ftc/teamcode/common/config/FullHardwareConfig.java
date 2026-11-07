@@ -35,7 +35,7 @@ public class FullHardwareConfig extends ElectronicsConfig {
     public FullHardwareConfig(){}
 
     public static PIDFController shooterController = new PIDFController(
-         new PIDFCoefficients(0.004,0,0.000006,0.0003)
+         new PIDFCoefficients(0.0019,0,0.000012,0.00025)
     );
 
     @Override
@@ -64,16 +64,16 @@ public class FullHardwareConfig extends ElectronicsConfig {
 
         SmartMotor shooterMotor = new SmartMotor.builder(hardwareMap,Constants.shooterMotor)
                 .controller(shooterController)
-                .direction(DcMotorSimple.Direction.REVERSE)
+                .direction(DcMotorSimple.Direction.FORWARD)
                 .ticksToDegrees(12.85714285714286)
                 .targetMode(Actuator.TargetMode.VELOCITY)
                 .zeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
-                .encoderReversed(false)
+                .encoderReversed(false)//69,4000
                 .build();
 
         PowerTrain shooterPowerTrain = new PowerTrain.builder(hardwareMap,Constants.shooterPowerTrain)
                 .addActuator(shooterMotor)
-                .addServo(Constants.shooterServo, Servo.Direction.FORWARD,60,0,90,0.5)
+                .addServo(Constants.shooterServo, Servo.Direction.FORWARD,60,0.4,90,0.8)
                 .addActuator(new SmartServo.builder(hardwareMap,Constants.shooterDoorServo)
                         .setPwmRange(500,2500)
                         .setScale(0.35,0,0.78,1).build())

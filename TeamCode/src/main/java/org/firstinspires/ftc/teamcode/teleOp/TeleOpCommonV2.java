@@ -19,7 +19,8 @@ import org.firstinspires.ftc.teamcode.common.parts.Turret;
 @Config
 public class TeleOpCommonV2 extends BlazeCommon {
     public static double position = 180;
-    public static double shooterTarget = 1000;
+    public static double shooterPosition = 67;
+    public static double shooterTarget = 4000;
 
     @AutowireModule
     ActiveIntakeModule intake;
@@ -78,6 +79,7 @@ public class TeleOpCommonV2 extends BlazeCommon {
         }
 
         shooter.setRPM(shooterTarget);
+        shooter.setShooterPosition(shooterPosition);
         turret.setPosition(position);
         if(gamepad1.squareWasPressed()){
             shooter.toggle();

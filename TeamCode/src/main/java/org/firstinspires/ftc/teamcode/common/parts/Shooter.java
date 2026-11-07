@@ -70,6 +70,10 @@ public class Shooter extends BlazingModule {
         }
     }
 
+    public void setShooterPosition(double position){
+        shooterServo.setTarget(position);
+    }
+
     @Command
     public void openDoor(){
         shooterDoorServo.setTarget(openPosition);

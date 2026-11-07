@@ -18,9 +18,9 @@ import java.util.List;
 @Autonomous(group = "Test")
 @Config
 public class MultiDeviceTest extends LinearOpMode {
-    public static String devices;
+    public static String devices = "";
 
-    public static String positions ;
+    public static String positions = "";
 
     List<Object> actuators = new ArrayList<>();//make an interface
 
@@ -28,16 +28,14 @@ public class MultiDeviceTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         List<String> splitDevices = Arrays.asList(devices.split(";"));
-        BlazeLogger.addDefaultLog("test","siz: " + splitDevices.size());
         telemetry.addData("Write your actuator in format of TYPE:name:DIRECTION","");
-        telemetry.addData("Where type can be MOTOR(m) or SERVO(s)","");
-        telemetry.addData("Where name is the device name in config","");
-        telemetry.addData("Where direction can be FORWARD(f) or REVERSE(r)","");
+        telemetry.addData(" type can be MOTOR(m) or SERVO(s)","");
+        telemetry.addData("direction can be FORWARD(f) or REVERSE(r)","");
         telemetry.addData("devices should be separated by an space ","");
         telemetry.addData("Example:: SERVO:servo1:REVERSE m:motor1:f","");
 
-        telemetry.addData("Then to set position/power you can write either 1 value: 0,5","");
-        telemetry.addData("Or an array of values(size of devices) and separated by a space:0,5 1","");
+        telemetry.addData("Then to set position/power you can write either 1 value: 0.5","");
+        telemetry.addData("Or an array of values(size of devices) and separated by a space:0.5 1","");
         telemetry.update();
 
         waitForStart();
@@ -45,10 +43,6 @@ public class MultiDeviceTest extends LinearOpMode {
         for(String device : splitDevices){
 
             String[] deviceAndType = device.split(":");
-            BlazeLogger.addDefaultLog("test","device: " + deviceAndType.length);
-            BlazeLogger.addDefaultLog("test","devices: " + device);
-            BlazeLogger.addDefaultLog("test","devices: " + splitDevices);
-            BlazeLogger.addDefaultLog("test","devices: " + devices);
             String type = deviceAndType[0];
             String name = deviceAndType[1];
             String direction = deviceAndType[2];

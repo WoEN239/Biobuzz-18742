@@ -67,6 +67,8 @@ public class SmartServo implements Actuator {
                         (target - servoScale.minScale()) /
                         (servoScale.maxScale() - servoScale.minScale());
 
+        //0.4 + 0.4 * 7 /
+
         servo.setPosition(position);
     }
 
