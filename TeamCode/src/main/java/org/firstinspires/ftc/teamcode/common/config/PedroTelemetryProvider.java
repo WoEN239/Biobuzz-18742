@@ -16,13 +16,16 @@ public class PedroTelemetryProvider implements org.firstinspires.ftc.teamcode.bl
         return new MultiDashTelemetry(coreTelemetry) {
 
             FtcDashboard dashboard = FtcDashboard.getInstance();
+            int i = 0;
             TelemetryPacket packet = new TelemetryPacket();
 
 
             @Override
             public void addData(String caption, Object value) {
                 super.addData(caption, value);
-                packet.put(caption,value);
+                i++;
+                String stringI = String.valueOf(i);
+                packet.put(stringI+caption ,value);
             }
 
             @Override
@@ -40,6 +43,7 @@ public class PedroTelemetryProvider implements org.firstinspires.ftc.teamcode.bl
             public void update() {
                 super.update();
                 dashboard.sendTelemetryPacket(packet);
+                i = 0;
                 packet.clearLines();
             }
         };

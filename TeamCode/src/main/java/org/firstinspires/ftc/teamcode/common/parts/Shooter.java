@@ -36,38 +36,29 @@ public class Shooter extends BlazingModule {
     @Command
     public void setRPM(double rpm){
         if(rpm != 0){
-            isOn = true;
+            shooterMotor.setTarget(rpm);
         }
         else{
-            isOn = false;
+            shooterMotor.setPower(0);
         }
-        shooterMotor.setTarget(rpm);
+
     }
 
     public void setRpmSupplier(Supplier<Double> rpmSupplier) {
         this.rpmSupplier = rpmSupplier;
     }
-
-    @Command
-    public void turnOff(){
-        isOn = false;
-        shooterMotor.setPower(0);
-    }
-
-    public void turnOn(){
-        isOn = true;
-    }
-
     @Command
     public void toggle(){
+
         if(isOn){
-            turnOff();
+            isOn = false;
             closeDoor();
         }
         else{
-            turnOn();
+            isOn = true;
             openDoor();
         }
+
     }
 
     public void setShooterPosition(double position){
@@ -84,10 +75,6 @@ public class Shooter extends BlazingModule {
         shooterDoorServo.setTarget(closePosition);
     }
 
-
-    public boolean isOn(){
-        return isOn;
-    }
 
     @Override
     public void update() {

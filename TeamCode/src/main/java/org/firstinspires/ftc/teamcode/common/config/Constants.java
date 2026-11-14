@@ -29,6 +29,8 @@ public final class Constants {
     public final static String shooterServo = "shooterServo";
     public final static String shooterDoorServo = "shooterDoorServo";
     public final static String transferMotor = "transfer";
+    public final static String transferMotorGroup = "transferMotorGroup";
+
 
 
 }

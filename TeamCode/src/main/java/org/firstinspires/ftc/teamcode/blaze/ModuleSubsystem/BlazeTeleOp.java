@@ -10,7 +10,6 @@ public abstract class BlazeTeleOp<Core extends BlazeCommon> extends BlazeOpMode 
         createCore();
         core.allModulesInit();
         core.init();
-        core.setupAlliance();
     }
 
     public abstract void createCore();

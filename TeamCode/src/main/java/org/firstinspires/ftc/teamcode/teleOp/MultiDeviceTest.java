@@ -6,7 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.blaze.BlazeLogger;
 
@@ -73,6 +75,8 @@ public class MultiDeviceTest extends LinearOpMode {
                 case "s":
                 case "SERVO":{
                     Servo servo = hardwareMap.get(Servo.class,name);
+                    ServoImplEx servoEx = (ServoImplEx) servo;
+                    servoEx.setPwmRange(new PwmControl.PwmRange(500,2500));
                     Servo.Direction direction1 = null;
                     switch (direction){
                         case "r":

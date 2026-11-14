@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.blaze;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.blaze.Actuators.Actuator;
+import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireActuator;
+import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireCustom;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireModule;
 import org.firstinspires.ftc.teamcode.blaze.ModuleSubsystem.BlazingModule;
 import org.firstinspires.ftc.teamcode.blaze.MultiThread.SyncTopicBus;
@@ -41,6 +44,8 @@ public class BlazeCommon {
         this.currentAlliance = alliance;
 
         autoWireModule();
+        autoWireCustoms();
+        setupAlliance();
     }
 
     /**
@@ -166,6 +171,36 @@ public class BlazeCommon {
         T module = module(moduleClass);
         SyncTopicBus.publish(module.getName(), data);
     }
+
+    private void autoWireCustoms() {
+        long startTime = System.currentTimeMillis();
+        for (Field field : this.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+
+            try {
+                Class<?> fieldType = field.getType();
+                if(field.isAnnotationPresent(AutowireCustom.class)){
+                    String annotationName = field.getAnnotation(AutowireCustom.class).name();
+
+                    if(annotationName.isEmpty()){
+                        annotationName = field.getName();
+                    }
+                    Object custom = BlazeCore.getCustom(annotationName,fieldType);
+
+                    field.set(this,custom);
+                    BlazeLogger.addDefaultLog("Common."+this.getClass().getSimpleName(),"Found " + custom.getClass().getSimpleName() +" custom");
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(
+                        "AutoWire failed for field '" + field.getName() +
+                                "' in common " + this.getClass().getSimpleName(), e
+                );
+            }
+        }
+        long timeToEnd = System.currentTimeMillis() - startTime;
+        BlazeLogger.addDefaultLog("Common."+this.getClass().getSimpleName(),"Took " + timeToEnd + " ms to autowire customs");
+    }
+
 
 
 

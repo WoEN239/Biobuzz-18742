@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.blaze.Anotations.BlazeModule;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.InitWithTelemetry;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.InitWithoutTelemetry;
 import org.firstinspires.ftc.teamcode.blaze.ModuleSubsystem.BlazingModule;
+import org.firstinspires.ftc.teamcode.blaze.ModuleSubsystem.PowerTrainSubsystem.ActuatorGroup;
 import org.firstinspires.ftc.teamcode.common.config.Constants;
 
 @BlazeModule

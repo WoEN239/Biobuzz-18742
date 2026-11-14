@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.common.parts;
 import com.sun.tools.javac.code.Attribute;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.blaze.Actuators.Servo.SmartServo;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartMotor;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.AutowireActuator;
 import org.firstinspires.ftc.teamcode.blaze.Anotations.BlazeModule;
@@ -22,6 +23,16 @@ public class ActiveIntakeModule extends BlazingModule {
     @AutowireActuator
     SmartMotor intake;
 
+    @AutowireActuator
+    SmartServo mineplowServo;
+
+    public void mineplowUp(){
+        mineplowServo.setTarget(0);
+    }
+
+    public void mineplowDown(){
+        mineplowServo.setTarget(1);
+    }
 
     public void suck(){
         intake.setPower(intakePower);

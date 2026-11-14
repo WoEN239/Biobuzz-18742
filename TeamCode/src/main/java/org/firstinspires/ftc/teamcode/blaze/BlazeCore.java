@@ -34,7 +34,7 @@ public class BlazeCore {
     // --- Registries ---
     private static final HashMap<String, PowerTrain> allPowerTrains = new HashMap<>();
     private static final HashMap<String, String> moduleToPowerTrain = new HashMap<>();
-    private static final HashMap<String, Object> allCustom = new HashMap<>();
+    private static HashMap<String, Object> allCustom = new HashMap<>();
 
 
     // --- Hardware & Context References ---
@@ -60,6 +60,7 @@ public class BlazeCore {
      * @param hardwareMap The FTC HardwareMap provided by the OpMode.
      */
     public static void createConfig(HardwareMap hardwareMap,Telemetry telemetry)  {
+        allCustom = new HashMap<>();
         BlazeCore.hardwareMap = hardwareMap;
         baseTelemetry = telemetry;
         setTelemetry(telemetry);
