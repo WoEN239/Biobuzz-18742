@@ -34,7 +34,7 @@ public class FullHardwareConfig extends ElectronicsConfig {
     public FullHardwareConfig(){}
 
     public static PIDFController shooterController = new PIDFController(
-         new PIDFCoefficients(0.001,0,0,0.00026)
+         new PIDFCoefficients(0.004,0,0.0005,0.00019)
     );
 
     @Override
@@ -59,10 +59,10 @@ public class FullHardwareConfig extends ElectronicsConfig {
                 .autowireTo(ActiveIntakeModule.class).build();
 
         PowerTrain driveTrain = new PowerTrain.builder(hardwareMap,Constants.driveTrainPowerTrain)
-                .addMotor(Constants.backLeftDrive, DcMotorSimple.Direction.FORWARD)
-                .addMotor(Constants.frontRightDrive, DcMotorSimple.Direction.FORWARD)
-                .addMotor(Constants.backRightDrive, DcMotorSimple.Direction.FORWARD)
-                .addMotor(Constants.frontLeftDrive, DcMotorSimple.Direction.FORWARD)
+                .addMotor(Constants.backLeftDrive, DcMotorSimple.Direction.REVERSE)
+                .addMotor(Constants.frontRightDrive, DcMotorSimple.Direction.REVERSE)
+                .addMotor(Constants.backRightDrive, DcMotorSimple.Direction.REVERSE)
+                .addMotor(Constants.frontLeftDrive, DcMotorSimple.Direction.REVERSE)
                 .autowireTo(DriveTrain.class).build();
 
         SmartMotor shooterMotor = new SmartMotor.builder(hardwareMap,Constants.shooterMotor)
@@ -73,14 +73,14 @@ public class FullHardwareConfig extends ElectronicsConfig {
                 .zeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
                 .encoderReversed(true)//69,4000
                 .build();
-        //0.9 - 90
-        //0.55- 55
+        //1 - 90
+        //0.65- 55
 
         //mine plow min 0 max 0.58
 
         PowerTrain shooterPowerTrain = new PowerTrain.builder(hardwareMap,Constants.shooterPowerTrain)
                 .addActuator(shooterMotor)
-                .addServo(Constants.shooterServo, Servo.Direction.FORWARD,55,0.55,90,0.9)
+                .addServo(Constants.shooterServo, Servo.Direction.REVERSE,55,0.65,90,1)
                 .addActuator(new SmartServo.builder(hardwareMap,Constants.shooterDoorServo)
                         .setPwmRange(500,2500)
                         .setScale(range,0,0.38,1).build())

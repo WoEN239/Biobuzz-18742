@@ -43,6 +43,7 @@ public class BlazeCore {
     private static Gamepad gamepad1;
     private static Gamepad gamepad2;
 
+    private static boolean isOpModeActive;
     // --- Configuration ---
     private static ElectronicsConfig electronicsConfig;
     private static final String PACKAGE_NAME = "org.firstinspires.ftc.teamcode";
@@ -141,6 +142,14 @@ public class BlazeCore {
      */
     public static void scanAnnotations(){
         BlazeAnnotationScanner.scanAndRegisterAll(hardwareMap);
+    }
+
+    public boolean isOpModeActive(){
+        return isOpModeActive;
+    }
+
+    public static void setIsOpModeActive(boolean isOpModeActive) {
+        BlazeCore.isOpModeActive = isOpModeActive;
     }
 
     /**

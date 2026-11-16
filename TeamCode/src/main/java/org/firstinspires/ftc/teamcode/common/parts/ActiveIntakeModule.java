@@ -27,11 +27,11 @@ public class ActiveIntakeModule extends BlazingModule {
     SmartServo mineplowServo;
 
     public void mineplowUp(){
-        mineplowServo.setTarget(0);
+        mineplowServo.setTarget(1);
     }
 
     public void mineplowDown(){
-        mineplowServo.setTarget(1);
+        mineplowServo.setTarget(0);
     }
 
     public void suck(){

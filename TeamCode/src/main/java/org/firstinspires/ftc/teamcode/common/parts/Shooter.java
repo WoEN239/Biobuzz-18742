@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.common.parts;
 
 
+import com.pedropathing.math.Pose;
+
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.SmartMotor;
 import org.firstinspires.ftc.teamcode.blaze.Actuators.Servo.SmartServo;
@@ -20,6 +22,8 @@ public class Shooter extends BlazingModule {
 
     @AutowireActuator
     SmartMotor shooterMotor;
+
+    public static Pose targetPose = new Pose(0,0);
 
     @AutowireActuator
     SmartServo shooterServo;
